@@ -10,9 +10,11 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([], {
+    initialNavigation: 'enabled'
+})
   ],
   providers: [],
   bootstrap: [AppComponent]
