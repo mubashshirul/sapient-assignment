@@ -1,10 +1,100 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+const URL = 'https://api.spaceXdata.com/v3/launches?limit=100';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'sapient-assignment';
+export class AppComponent implements OnInit {
+
+  years = [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
+  selectedYear: number;
+  isLaunchSuccess = false;
+  isLandSuccess = false;
+  launchList = [];
+  subs: Subscription;
+  isLoading: boolean;
+
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+
+  }
+
+  ngOnInit() {
+    console.log('ngoninit');
+    this.route.queryParams.subscribe(params => {
+      console.log('query params ', params);
+
+      this.getList(params);
+    });
+    // this.getList();
+  }
+
+  getList(params?) {
+    if (this.subs) {
+      this.subs.unsubscribe();
+    }
+    let httpPar = new HttpParams();
+
+    if (params) {
+      if (params.launch_success) {
+        this.isLaunchSuccess = true;
+        httpPar = httpPar.append('launch_success', 'true');
+      } else {
+        this.isLaunchSuccess = false;
+      }
+
+      if (params.land_success) {
+        this.isLandSuccess = true;
+        httpPar = httpPar.append('land_success', 'true');
+      } else {
+        this.isLandSuccess = false;
+      }
+
+      if (params.launch_year) {
+        this.selectedYear = params.launch_year;
+        httpPar = httpPar.append('launch_year', String(params.launch_year));
+      } else {
+        this.selectedYear = null;
+      }
+    }
+
+    this.isLoading = true;
+    this.subs = this.httpClient.get(URL, { params: httpPar }).subscribe((res: any) => {
+      this.launchList = res;
+      this.isLoading = false;
+    });
+  }
+
+  onFilter(key: 'year' | 'launch' | 'land', flag) {
+    if (key === 'year') {
+      this.selectedYear = flag;
+    } else if (key === 'launch') {
+      this.isLaunchSuccess = flag;
+    } else if (key === 'land') {
+      this.isLandSuccess = flag;
+    }
+
+    const params: any = {};
+    if (this.isLaunchSuccess) {
+      params.launch_success = true;
+    }
+    if (this.isLandSuccess) {
+      params.land_success = true;
+    }
+    if (this.selectedYear) {
+      params.launch_year = this.selectedYear;
+    }
+
+    this.router.navigate([''], { queryParams: params });
+  }
+
 }

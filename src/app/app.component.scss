@@ -1,0 +1,131 @@
+.container {
+    background: #e6e6e6;
+    min-height: 100vh;
+    padding: 0 20px;
+
+    header {
+        padding: 10px 0px;
+
+        h1 {
+            margin: 0;
+        }
+    }
+
+    .main {
+        display: flex;
+        @media screen and (max-width: 700px) {
+            flex-direction: column;
+        }
+        aside {
+            width: 20%;
+            @media screen and (max-width: 700px) {
+                width: 100%;
+            }
+            .filter-container {
+                background: white;
+                border-radius: 10px;
+                padding: 10px 20px;
+                margin-right: 10px;
+                margin-bottom: 20px;
+                @media screen and (max-width: 700px) {
+                    margin-right: 0;
+                }
+                h2 {
+                    margin: 0;
+                }
+                .filter-head {
+                    text-align: center;
+                    border-bottom: 1px solid grey;
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                    margin-top: 20px;
+                }
+
+                .filter-wrapper {
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+
+                    div {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 50%;
+                        margin-bottom: 10px;
+                    }
+
+                    div:nth-child(2n) {
+                        flex-flow: row-reverse;
+                    }
+
+                    button {
+                        background: #97e497;
+                        border: 0;
+                        padding: 7px 15px;
+                        font-size: 16px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
+
+                    .selected-filter {
+                        background: #27a027;
+                    }
+                }
+            }
+        }
+
+        section {
+            width: 80%;
+            @media screen and (max-width: 700px) {
+                width: 100%;
+            }
+            display: flex;
+            flex-wrap: wrap;
+
+            .card-grid {
+                width: calc(25% - 60px);
+                padding: 20px;
+                background: white;
+                margin: 0px 10px 10px 10px;
+                border-radius: 10px;
+                @media screen and (max-width: 1024px) {
+                    width: calc(50% - 60px);
+                }
+                @media screen and (max-width: 700px) {
+                    width: calc(100% - 40px);
+                    margin: 0px 0px 10px 0px;
+                }
+                figure {
+                    width: 100%;
+                    background: #e6e6e6;
+                    margin-left: 0;
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+
+            .loader-wrapper {
+                display: flex;
+                height: 500px;
+                width: 100%;
+                .loader {
+                    margin: auto;
+                }
+            }
+            .no-data {
+                display: flex;
+                height: 500px;
+                width: 100%;
+                div {
+                    margin: auto;
+                }
+            }
+        }
+    }
+
+    footer {
+        padding: 20px 0;
+        text-align: center;
+    }
+}

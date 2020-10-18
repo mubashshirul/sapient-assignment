@@ -1,1 +1,60 @@
-sapient
+<div class="container">
+  <header>
+    <h1>SpaceX Launch Programs</h1>
+  </header>
+
+  <div class="main">
+    <aside>
+      <div class="filter-container">
+        <h2>Filters</h2>
+        <div class="filter-head">Launch Year</div>
+        <div class="filter-wrapper">
+          <div *ngFor="let year of years">
+            <button [class.selected-filter]="year == selectedYear" (click)="onFilter('year', year)">{{year}}</button>
+          </div>
+        </div>
+
+        <div class="filter-head">Successful Launch</div>
+        <div class="filter-wrapper">
+          <button [class.selected-filter]="isLaunchSuccess" (click)="onFilter('launch', true)">True</button>
+          <button [class.selected-filter]="!isLaunchSuccess" (click)="onFilter('launch', false)">False</button>
+        </div>
+
+        <div class="filter-head">Successful Landing</div>
+        <div class="filter-wrapper">
+          <button [class.selected-filter]="isLandSuccess" (click)="onFilter('land', true)">True</button>
+          <button [class.selected-filter]="!isLandSuccess" (click)="onFilter('land', false)">False</button>
+        </div>
+      </div>
+    </aside>
+    <section>
+      <div class="loader-wrapper" *ngIf="isLoading">
+        <div class="loader"></div>
+      </div>
+      <div class="no-data" *ngIf="!isLoading &&  (!launchList || (launchList && !launchList.length))">
+          <div>No data found</div>
+      </div>
+      <ng-container *ngIf="!isLoading && launchList && launchList.length">
+        <div class="card-grid" *ngFor="let launch of launchList">
+          <div class="card">
+            <figure>
+              <img [src]="launch?.links?.mission_patch_small" alt="launh-pic">
+            </figure>
+            <h3>{{launch.mission_name}}</h3>
+            <div><b>MissionIds:</b></div>
+            <ul>
+              <li *ngFor="let id of launch.mission_id">{{id}}</li>
+            </ul>
+            <div><b>Launch Year: </b> {{launch.launch_year}} </div>
+            <div><b>Successful Launch: </b> {{launch.launch_success}} </div>
+            <div><b>Successful Landing: </b> {{launch.launch_landing}} </div>
+          </div>
+        </div>
+      </ng-container>
+    </section>
+  </div>
+
+  <footer>
+    <b>Developed by: </b> Mubashshirul Islam
+  </footer>
+</div>
