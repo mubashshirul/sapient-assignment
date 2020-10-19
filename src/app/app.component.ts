@@ -14,8 +14,8 @@ export class AppComponent implements OnInit {
 
   years = [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
   selectedYear: number;
-  isLaunchSuccess = false;
-  isLandSuccess = false;
+  isLaunchSuccess = null;
+  isLandSuccess = null;
   launchList = [];
   subs: Subscription;
   isLoading: boolean;
@@ -46,21 +46,21 @@ export class AppComponent implements OnInit {
 
     if (params) {
       if (params.launch_success) {
-        this.isLaunchSuccess = true;
-        httpPar = httpPar.append('launch_success', 'true');
+        this.isLaunchSuccess = params.launch_success === 'true' ? true : false;
+        httpPar = httpPar.append('launch_success', this.isLaunchSuccess);
       } else {
-        this.isLaunchSuccess = false;
+        this.isLaunchSuccess = null;
       }
 
       if (params.land_success) {
-        this.isLandSuccess = true;
-        httpPar = httpPar.append('land_success', 'true');
+        this.isLandSuccess = params.land_success === 'true' ? true : false;
+        httpPar = httpPar.append('land_success', this.isLandSuccess);
       } else {
-        this.isLandSuccess = false;
+        this.isLandSuccess = null;
       }
 
       if (params.launch_year) {
-        this.selectedYear = params.launch_year;
+        this.selectedYear = Number(params.launch_year);
         httpPar = httpPar.append('launch_year', String(params.launch_year));
       } else {
         this.selectedYear = null;
@@ -75,20 +75,33 @@ export class AppComponent implements OnInit {
   }
 
   onFilter(key: 'year' | 'launch' | 'land', flag) {
+    console.log('on filter ', key, flag);
     if (key === 'year') {
-      this.selectedYear = flag;
+      if (this.selectedYear === flag) {
+        this.selectedYear = null;
+      } else {
+        this.selectedYear = flag;
+      }
     } else if (key === 'launch') {
-      this.isLaunchSuccess = flag;
+      if (this.isLaunchSuccess === flag) {
+        this.isLaunchSuccess = null;
+      } else {
+        this.isLaunchSuccess = flag;
+      }
     } else if (key === 'land') {
-      this.isLandSuccess = flag;
+      if (this.isLandSuccess === flag) {
+        this.isLandSuccess = null;
+      } else {
+        this.isLandSuccess = flag;
+      }
     }
 
     const params: any = {};
-    if (this.isLaunchSuccess) {
-      params.launch_success = true;
+    if (this.isLaunchSuccess != null) {
+      params.launch_success = this.isLaunchSuccess;
     }
-    if (this.isLandSuccess) {
-      params.land_success = true;
+    if (this.isLandSuccess != null) {
+      params.land_success = this.isLandSuccess;
     }
     if (this.selectedYear) {
       params.launch_year = this.selectedYear;

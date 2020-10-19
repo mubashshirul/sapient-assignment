@@ -16,14 +16,14 @@
 
         <div class="filter-head">Successful Launch</div>
         <div class="filter-wrapper">
-          <button [class.selected-filter]="isLaunchSuccess" (click)="onFilter('launch', true)">True</button>
-          <button [class.selected-filter]="!isLaunchSuccess" (click)="onFilter('launch', false)">False</button>
+          <button [class.selected-filter]="isLaunchSuccess === true" (click)="onFilter('launch', true)">True</button>
+          <button [class.selected-filter]="isLaunchSuccess === false" (click)="onFilter('launch', false)">False</button>
         </div>
 
         <div class="filter-head">Successful Landing</div>
         <div class="filter-wrapper">
-          <button [class.selected-filter]="isLandSuccess" (click)="onFilter('land', true)">True</button>
-          <button [class.selected-filter]="!isLandSuccess" (click)="onFilter('land', false)">False</button>
+          <button [class.selected-filter]="isLandSuccess === true" (click)="onFilter('land', true)">True</button>
+          <button [class.selected-filter]="isLandSuccess === false" (click)="onFilter('land', false)">False</button>
         </div>
       </div>
     </aside>
